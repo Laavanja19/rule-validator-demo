@@ -33,5 +33,11 @@ public class DocumentValidationResult {
         this.message = message;
         this.ruleName = ruleName;
         this.severity = DiagnosticSeverity.getSeverityString(severity);
+        System.out.println("---- Final LintResult Debug ----");
+        System.out.println("Path: " + path);
+        System.out.println("Message: " + message);
+        System.out.println("Rule Name: " + ruleName);
+        System.out.println("Severity: " + severity);
+        
     }
 }
