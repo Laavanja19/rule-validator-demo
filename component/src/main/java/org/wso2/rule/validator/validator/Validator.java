@@ -70,7 +70,13 @@ public class Validator {
                 if (lintResult.passed) {
                     continue;
                 }
-                results.add(new DocumentValidationResult(lintResult.path, lintResult.message,
+                System.out.println("---- LintResult Debug ----");
+                System.out.println("Path: " + lintResult.path);
+                System.out.println("Message: " + lintResult.rule.getDescription());
+                System.out.println("Rule Name: " + lintResult.rule.name);
+                System.out.println("Severity: " + lintResult.rule.severity);
+
+                results.add(new DocumentValidationResult(lintResult.path, lintResult.rule.getDescription(),
                         lintResult.rule.name, lintResult.rule.severity));
             }
         } else {
