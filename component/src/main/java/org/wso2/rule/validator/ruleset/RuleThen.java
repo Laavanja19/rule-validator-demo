@@ -39,6 +39,17 @@ public class RuleThen {
         this.field = (String) ruleThenData.get(Constants.RULESET_FIELD);
         this.function = (String) ruleThenData.get(Constants.RULESET_FUNCTION);
         this.functionOptions = (Map<String, Object>) ruleThenData.get(Constants.RULESET_FUNCTION_OPTIONS);
+        Object optionsObj = ruleThenData.get("functionOptions");
+        if (optionsObj instanceof Map) {
+            this.functionOptions = (Map<String, Object>) optionsObj;
+        } else {
+            this.functionOptions = null; // or Collections.emptyMap() if safe fallback needed
+        }
+
+        if (this.functionOptions != null) {
+            Object notMatch = this.functionOptions.get("notMatch");
+        }
+        
         try {
             this.lintFunction = FunctionFactory.getFunction(this.function, this.functionOptions);
         } catch (InvalidCoreFunctionException e) {
@@ -55,5 +66,9 @@ public class RuleThen {
 
     public String getInitializationErrorMessage() {
         return initializationErrorMessage;
+    }
+
+    public Map<String,Object> getFunctionOptions() {
+        return this.functionOptions;
     }
 }
