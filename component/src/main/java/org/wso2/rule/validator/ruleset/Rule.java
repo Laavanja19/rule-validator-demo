@@ -59,7 +59,13 @@ public class Rule {
         }
 
         if (messageObject instanceof String && !((String) messageObject).isEmpty()) {
-            this.message = (String) messageObject;
+            String rawMessage = (String) messageObject;
+            this.message = rawMessage
+                            .replace("{{description}}", this.description != null ? this.description : "");
+                            
+            
+            
+            
         } else if (descriptionObject instanceof String && !((String) descriptionObject).isEmpty()) {
             this.message = this.description;
         } else {
