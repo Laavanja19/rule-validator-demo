@@ -42,4 +42,5 @@ public class LintResult {
                 "\n\tmessage='" + this.message + '\'' +
                 "\n}";
     }
+    
 }
