@@ -29,6 +29,7 @@ public class RulesetValidationError {
         this.ruleName = ruleName;
         this.message = message;
     }
+    
 
     public String toString() {
         if (ruleName.isEmpty()) {
