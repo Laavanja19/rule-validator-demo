@@ -34,9 +34,11 @@ import org.wso2.rule.validator.ruleset.RuleThen;
 import org.wso2.rule.validator.ruleset.Ruleset;
 import org.wso2.rule.validator.ruleset.RulesetAliasDefinition;
 import org.wso2.rule.validator.utils.Util;
+import org.wso2.rule.validator.validator.utils.MessageUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -176,9 +178,23 @@ public class Document {
                 String targetPath = LintTarget.getPathString(parentPath);
                 target.jsonPath = parentPath;
                 FunctionResult result = then.lintFunction.execute(target);
-                results.add(new LintResult(result.passed, targetPath, rule,
-                        rule.message == null ? result.message : rule.message));
-            }
+                Map<String, String> placeholders = new HashMap<>();
+                
+                placeholders.put("description", rule.getDescription());
+                placeholders.put("path", targetPath);
+                placeholders.put("value", target.getValueAsString());
+                placeholders.put("property",target.getTargetName());
+                placeholders.put("error", result.message);
+                
+                String finalMessage;
+                if (rule.message != null) {
+                    finalMessage = MessageUtils.replacePlaceholders(rule.message, placeholders);
+                } else {
+                    finalMessage = result.message;
+                }
+                    results.add(new LintResult(result.passed, targetPath, rule,
+                            finalMessage));
+                }
         }
         return results;
     }
