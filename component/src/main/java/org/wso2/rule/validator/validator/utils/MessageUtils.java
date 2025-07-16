@@ -1,21 +1,17 @@
 package org.wso2.rule.validator.validator.utils;
 
-import java.util.Map;
+import org.wso2.rule.validator.validator.Placeholder;
 
 public class MessageUtils {
 
-    public static String replacePlaceholders(String template, Map<String, String> values) {
-        if (template == null || template.isEmpty()) {
-            return "";
-        }
+    public static String replacePlaceholders(String template, Placeholder placeholders) {
+        return template
+                .replace("{{description}}",placeholders.getDescription())
+                .replace("{{error}}",placeholders.getError())
+                .replace("{{property}}",placeholders.getProperty())
+                .replace("{{path}}",placeholders.getPath())
+                .replace("{{value}}",placeholders.getValue());
 
-        String message = template;
-        for (Map.Entry<String, String> entry : values.entrySet()) {
-            String placeholder = "{{" + entry.getKey() + "}}";
-            message = message.replace(placeholder, entry.getValue() != null ? entry.getValue() : "");
-        }
-
-        return message;
     }
 }
 
