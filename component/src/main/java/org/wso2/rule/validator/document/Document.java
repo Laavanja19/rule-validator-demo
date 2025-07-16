@@ -36,7 +36,6 @@ import org.wso2.rule.validator.ruleset.RulesetAliasDefinition;
 import org.wso2.rule.validator.utils.Util;
 import org.wso2.rule.validator.validator.utils.MessageUtils;
 import org.wso2.rule.validator.validator.Placeholder;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
