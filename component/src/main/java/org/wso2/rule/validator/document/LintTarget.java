@@ -17,9 +17,6 @@
  */
 package org.wso2.rule.validator.document;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import java.util.Map;
 
@@ -52,11 +49,12 @@ public class LintTarget {
     }
     
     public String getValueAsString() {
-        if(value instanceof Map)
+        if (value instanceof Map)
             return "Object";
-        else if(value instanceof List)
+        else if (value instanceof List)
             return "List";
         else
-            return (String) value;
+            return String.valueOf(value);
     }
+
 }
