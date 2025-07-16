@@ -75,7 +75,11 @@ public class LengthFunction extends LintFunction {
             length = ((Map) target.value).size();
         } else if (target.value instanceof Integer) {
             length = (int) target.value;
-        } else {
+        } else if (target.value instanceof Float) {
+            length = ((Float) target.value).intValue();
+        } else if (target.value instanceof Double) {
+            length = ((Double) target.value).intValue();
+        }else {
             // Following Stoplight Spectral's logic
             return new FunctionResult(true, null);
         }
