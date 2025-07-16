@@ -35,6 +35,7 @@ import org.wso2.rule.validator.ruleset.Ruleset;
 import org.wso2.rule.validator.ruleset.RulesetAliasDefinition;
 import org.wso2.rule.validator.utils.Util;
 import org.wso2.rule.validator.validator.utils.MessageUtils;
+import org.wso2.rule.validator.validator.Placeholder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -171,30 +172,21 @@ public class Document {
         }
         for (RuleThen then : rule.then) {
             List<LintTarget> lintTargets = getLintTargets(node, then);
-
             for (LintTarget target : lintTargets) {
                 List<String> parentPath = splitJsonPath(path);
                 parentPath.addAll(target.jsonPath);
                 String targetPath = LintTarget.getPathString(parentPath);
                 target.jsonPath = parentPath;
                 FunctionResult result = then.lintFunction.execute(target);
-                Map<String, String> placeholders = new HashMap<>();
-                
-                placeholders.put("description", rule.getDescription());
-                placeholders.put("path", targetPath);
-                placeholders.put("value", target.getValueAsString());
-                placeholders.put("property",target.getTargetName());
-                placeholders.put("error", result.message);
-                
+                Placeholder placeholder = new Placeholder(rule.getDescription(),result.message,target.getTargetName(),targetPath,target.getValueAsString());
                 String finalMessage;
-                if (rule.message != null) {
-                    finalMessage = MessageUtils.replacePlaceholders(rule.message, placeholders);
+                if (result.message != null) {
+                    finalMessage = MessageUtils.replacePlaceholders(rule.message, placeholder);
                 } else {
                     finalMessage = result.message;
                 }
-                    results.add(new LintResult(result.passed, targetPath, rule,
-                            finalMessage));
-                }
+                results.add(new LintResult(result.passed, targetPath, rule,finalMessage));
+            }
         }
         return results;
     }
